@@ -1,0 +1,190 @@
+# CleverTap Webhooks Gallery, Field Guide No.15
+
+> The outbound channel. CleverTap talks to the client's own stack, server to server, when an event or campaign fires. It is not a user-facing surface. This guide holds 90 integration recipes across 15 verticals, real payload shapes, receiver snippets, the reliability and security model, an External Trigger section, and a build-vs-buy guide.
+
+Author: SJ Neo, Enterprise CSM at CleverTap. URL: https://shijunneo-bot.github.io/ct-webhooks-gallery/
+Every brand and endpoint in the recipes is fictional. Every metric is illustrative. Product facts are grounded in CleverTap docs or flagged Verify with PM.
+
+## What a webhook is
+- What it is: The outbound channel. CleverTap talks to the client's own stack, server to server, when an event or campaign fires. Not a user-facing surface.
+- The flavors: Four: a webhook campaign (an HTTP call as the delivery channel), a Journey webhook action node, a Post Action Webhook fired after a delivered campaign, and the inverse External Trigger where an outside system fires a CleverTap campaign.
+- The reliability model: It expects a 200 OK. The published figure is a 5-second timeout with a retry limit of 2. Internal CS guidance has cited 3 retries at about 3-second intervals. The numbers conflict, so design for very few retries and no dead-letter, and confirm the current figure.
+- What it can power: Ops and chat alerts, CRM and CDP sync, the brand's own inbox, coupon and loyalty updates, warehouse feeds, real-time personalization, and fraud or risk scoring.
+
+## The four flavors
+- Webhook campaign: a campaign whose delivery channel is an HTTP call.
+- Journey webhook action node: a webhook placed inside a Journey flow.
+- Post Action Webhook: fires after a delivered campaign, streaming message-level data.
+- External Trigger (the inverse): an outside system calls CleverTap to fire a pre-built campaign, injecting fresh data. Public Beta.
+
+## Reliability model
+Expects a 200 OK. Published FAQ: 5-second timeout with a retry limit of 2. Internal CS guidance has cited 3 retries at about 3-second intervals. The figures conflict, so design for very few retries and no dead-letter, and Verify with PM. Fire-and-forget (no response parsing). Order not guaranteed. Make the receiver idempotent. Verify authenticity with an HMAC over the raw body or a secret header, and allowlist CleverTap's inbound IP ranges.
+
+## The seven integration patterns
+- Fan-out to an ops or chat channel (16 recipes): A high-signal event pings the team where they already work, Slack, Teams, or Discord, so a human can act inside seconds. When: Reach for it when a person, not a system, needs to react: a whale signs up, a payment fails, a VIP churns.
+- Sync to a CRM or CDP (12 recipes): Engagement and lifecycle changes flow back into Salesforce, HubSpot, or a CDP so sales and success see one live picture. When: Reach for it when stale, once-a-day data is hurting the humans downstream and they need the state now.
+- Trigger the client's own inbox or bulletins (13 recipes): The webhook hands off to a service the brand owns, which then writes to their in-house message centre or status feed. When: Reach for it when the destination is a surface CleverTap does not natively host but the brand controls.
+- Issue a coupon or loyalty update (15 recipes): A milestone fires a webhook to the rewards engine, which mints a code or moves a tier, then the loop closes back into a message. When: Reach for it when reward timing matters: real-time beats a next-day batch for redemption.
+- Feed a warehouse or reverse-ETL (13 recipes): Events stream toward the data lake through a buffer, so analytics, ML, and attribution run on fresh behaviour, not yesterday's export. When: Reach for it when the team needs minutes-fresh data, and can stand up a queue to absorb the volume.
+- Drive real-time personalization (14 recipes): Intent signals feed a recommendation service the moment they happen, so the next message or screen already knows what the user wants. When: Reach for it when recommendations go stale fast and a daily refresh is too slow to matter.
+- Raise a fraud or risk alert (7 recipes): A suspicious pattern pushes to a scoring service in near real time, which can gate the account and trigger an immediate, calm message. When: Reach for it when seconds change the outcome: card testing, credential stuffing, a login from nowhere.
+
+## Build vs buy
+- Buy: Use a native connector where one exists. If CleverTap has a real connector for the platform (a CDP, a warehouse path, a messaging partner), start there. Least plumbing, most support. This is the default for anything on the supported list.
+- Hybrid: Webhook to your own service. Point a webhook at a small service you own, which then fans out to the real destination. This is the right starting point for most custom integrations: fast to stand up, and you control the contract.
+- Build: Own the full pipeline. For high volume or strict guarantees, build the event pipeline end to end (gateway, queue, warehouse). Honest cost: you now own retries, backoff, dead-letters, and monitoring that CleverTap will not do for you.
+
+## Documented messenger and partner destinations (real, sourced)
+- LINE (Documented webhook guide): Store lineID as a profile property, POST to the LINE push API. Big in JP, TW, TH. Endpoint: https://api.line.me/v2/bot/message/push
+- Telegram (Documented, messenger partner): Store the chat id, POST to the bot sendMessage endpoint. Strong for fintech and communities. Endpoint: https://api.telegram.org/bot<token>/sendMessage
+- Slack (Documented webhook guide): Incoming webhook URL for internal ops alerts. Keys must be lowercase to match Slack. Endpoint: https://hooks.slack.com/services/<path>
+- Zendesk (Documented use case): Auto-create a ticket on a low rating. Basic auth with an email plus API token. Endpoint: https://<subdomain>.zendesk.com/api/v2/tickets.json
+- Discord (Messenger partner): Channel webhook for community and alerting. Endpoint: https://discord.com/api/webhooks/<path>
+- Sendbird (Messenger partner): The bridge some teams use to reach KakaoTalk (AlimTalk) in Korea. Endpoint: (via Sendbird Business Messaging)
+Note: KakaoTalk, Zalo, Viber, and WeChat have no native CleverTap channel. Reach them with a generic webhook or a provider, and scope as custom work.
+
+## External Trigger and the WhatsApp loop
+The inverse of a webhook. Instead of CleverTap pushing out, an outside system calls CleverTap to fire a campaign you already built, and hands it fresh data to drop into the message before it sends.
+Channels it can fire: Push, Email, WhatsApp, Webhook. Public Beta. Ask your CSM to enable it. You publish the campaign first to get a Campaign ID, then your servers call the trigger API with that ID.
+Here is the pattern some teams still run, and it is a neat one. Their backend fires an order-confirmation call into CleverTap's External Trigger, and the campaign channel is WhatsApp (or an outbound Webhook to their own BSP). So a real-time, data-rich transactional WhatsApp message goes out, driven by the client's event, with CleverTap holding the template and the personalization. It is the outbound webhook and the inverse trigger working as one loop.
+
+## Watch-outs and limitations
+- DND does not work inside Journeys: Do Not Disturb for webhooks is supported in Campaigns only, not in Journeys. If you need quiet hours inside a journey, enforce them in your own middleware.
+- Fire-and-forget, no response parsing: CleverTap does not read what your endpoint returns. To act on a response, write it back with the Events or Profile API, or use the External Trigger.
+- No dead-letter on CleverTap's side: If your endpoint is down past the retry window, the event is gone. Put a queue in front of anything that matters so nothing is lost silently.
+- Retry and timeout figures conflict: The published FAQ says 5-second timeout and a retry limit of 2. Internal CS guidance has cited 3 retries at about 3 seconds. Verify with PM and design for the pessimistic case.
+- Campaign targeting cap is 100 or more: Webhook and External Trigger campaigns need a targeting cap of at least 100, regardless of the real segment size, or the campaign throws an error.
+- Order is not guaranteed: Do not assume events land in sequence. Carry the timestamp in the payload and let the receiver sort and dedupe.
+
+## Stats and observability
+CleverTap reports webhooks streamed, message trend, dispatch errors, and invalid-URL errors. That proves the call fired, not that the downstream delivered. Instrument the receiver for end-to-end truth.
+
+## The 90 recipes, by vertical
+### Classifieds
+- HavenList: New-match alert (Trigger the client's own inbox or bulletins). Trigger: Saved-Search Match Found -> Notification service. Outcome: A match alert lands on the brand's surface.
+- HavenList: Seller-lead sync (Sync to a CRM or CDP). Trigger: Listing Enquiry Received -> Seller CRM. Outcome: Sellers see live enquiries.
+- HavenList: Scam-pattern flag (Raise a fraud or risk alert). Trigger: Suspicious Listing Pattern -> Trust and safety queue. Outcome: A risk case opens fast.
+- HavenList: Price-drop nudge (Drive real-time personalization). Trigger: Watched Listing Price Dropped -> Offer service. Outcome: A price-drop alert waits on next open.
+- HavenList: Promote reward (Issue a coupon or loyalty update). Trigger: Listing Sold -> Rewards engine. Outcome: A promote-credit posts on the sale.
+- HavenList: Listing-events stream (Feed a warehouse or reverse-ETL). Trigger: Listing Published -> Marketplace lake. Outcome: Listing data reaches analytics fresh.
+
+### E-commerce
+- Tokobell: Cart rescue (Drive real-time personalization). Trigger: Abandoned Cart (High Value) -> Reco service. Outcome: A follow-up carries the exact items.
+- Tokobell: Ads audience sync (Sync to a CRM or CDP). Trigger: High-Intent Segment Entered -> Ads audience. Outcome: Intent users flow to the ad audience live.
+- Tokobell: Back-in-stock (Trigger the client's own inbox or bulletins). Trigger: Restock Signal Received -> In-house inbox. Outcome: A back-in-stock alert waits in-app.
+- Tokobell: VIP-order alert (Fan-out to an ops or chat channel). Trigger: Order Over VIP Threshold -> Concierge channel. Outcome: Concierge sees the big order at once.
+- Tokobell: Coupon on threshold (Issue a coupon or loyalty update). Trigger: Spend Threshold Crossed -> Rewards engine. Outcome: A reward code mints on the spend.
+- Tokobell: Order-events stream (Feed a warehouse or reverse-ETL). Trigger: Order Placed -> Commerce lake. Outcome: Order events reach analytics minutes-fresh.
+
+### EdTech
+- BrightPath: Certificate issue (Trigger the client's own inbox or bulletins). Trigger: Course Completed -> Certificate service. Outcome: A certificate mints on completion.
+- BrightPath: Stall rescue (Drive real-time personalization). Trigger: No Lesson in 10 Days -> Learning service. Outcome: A next-best lesson waits on next open.
+- BrightPath: Streak reward (Issue a coupon or loyalty update). Trigger: Study Streak Reached -> Rewards engine. Outcome: A badge or credit unlocks on the streak.
+- BrightPath: Enrolment sync (Sync to a CRM or CDP). Trigger: Course Enrolled -> Sales CRM. Outcome: New enrolments surface live.
+- BrightPath: At-risk alert (Fan-out to an ops or chat channel). Trigger: Assessment Failed Twice -> Mentor channel. Outcome: A mentor sees the struggle fast.
+- BrightPath: Progress-events stream (Feed a warehouse or reverse-ETL). Trigger: Lesson Completed -> Learning lake. Outcome: Progress data reaches analytics fresh.
+
+### Fintech
+- Arca Bank: Large-transfer check (Raise a fraud or risk alert). Trigger: Transfer Over Threshold -> Fraud scoring queue. Outcome: A risk score returns before funds settle.
+- Arca Bank: Card-testing block (Raise a fraud or risk alert). Trigger: 3 Failed Auths in 5 Min -> Risk engine. Outcome: A tight rule flags card testing fast.
+- Arca Bank: New-device login (Fan-out to an ops or chat channel). Trigger: Login From New Device -> Security ops channel. Outcome: Security sees the new-device event live.
+- Arca Bank: Statement-ready feed (Trigger the client's own inbox or bulletins). Trigger: Monthly Statement Generated -> In-house inbox. Outcome: A statement-ready note lands in-app.
+- Arca Bank: Wealth-tier upgrade (Issue a coupon or loyalty update). Trigger: Balance Tier Upgraded -> Rewards engine. Outcome: A perk unlocks the moment the tier moves.
+- Arca Bank: KYC-status sync (Sync to a CRM or CDP). Trigger: KYC Approved -> Onboarding CRM. Outcome: Ops sees verified users live.
+
+### Food & Beverage
+- MakanGo: Kitchen fire-off (Trigger the client's own inbox or bulletins). Trigger: Order Ready for Kitchen -> Kitchen display. Outcome: The ticket lands on the KDS on confirm.
+- MakanGo: Rider dispatch (Fan-out to an ops or chat channel). Trigger: Order Packed -> Dispatch channel. Outcome: Dispatch sees packed orders live.
+- MakanGo: Lapsed-eater win-back (Drive real-time personalization). Trigger: No Order in 21 Days -> Offer service. Outcome: A craved-dish offer waits on next open.
+- MakanGo: Streak reward (Issue a coupon or loyalty update). Trigger: Order Streak Reached -> Rewards engine. Outcome: A free side unlocks on the streak.
+- MakanGo: Rating-drop ticket (Fan-out to an ops or chat channel). Trigger: Order Rated Under 3 Stars -> Support channel. Outcome: Support sees a bad meal fast.
+- MakanGo: Demand-signal feed (Feed a warehouse or reverse-ETL). Trigger: Peak Order Surge -> Ops lake. Outcome: Surge signals reach ops minutes-fresh.
+
+### Gaming
+- Nebula Arena: Rank-up shout (Fan-out to an ops or chat channel). Trigger: Player Rank Increased -> Community service. Outcome: A rank-up posts to the community feed.
+- Nebula Arena: Lapsed-player pull (Drive real-time personalization). Trigger: No Session in 7 Days -> Content service. Outcome: A tailored quest waits on next launch.
+- Nebula Arena: Battle-pass reward (Issue a coupon or loyalty update). Trigger: Tier Completed -> Rewards engine. Outcome: A drop unlocks on tier complete.
+- Nebula Arena: Toxic-behavior flag (Raise a fraud or risk alert). Trigger: Report Threshold Reached -> Trust and safety queue. Outcome: A moderation case opens fast.
+- Nebula Arena: Whale-spend alert (Fan-out to an ops or chat channel). Trigger: Spend Over Threshold -> VIP channel. Outcome: VIP sees a big spender live.
+- Nebula Arena: Match-events stream (Feed a warehouse or reverse-ETL). Trigger: Match Ended -> Game telemetry lake. Outcome: Match data reaches analytics fresh.
+
+### Grocery
+- FreshCart: Restock supplier feed (Fan-out to an ops or chat channel). Trigger: Low-Stock Signal -> Supplier feed. Outcome: Suppliers see low stock in near real time.
+- FreshCart: Basket-builder nudge (Drive real-time personalization). Trigger: Recurring Item Due -> Reco service. Outcome: A reorder nudge waits on next open.
+- FreshCart: Slot-open inbox (Trigger the client's own inbox or bulletins). Trigger: Delivery Slot Opened -> In-house inbox. Outcome: A slot-available note lands in-app.
+- FreshCart: Spend reward (Issue a coupon or loyalty update). Trigger: Monthly Spend Threshold -> Rewards engine. Outcome: A cashback posts on the spend.
+- FreshCart: Fresh-fail ticket (Fan-out to an ops or chat channel). Trigger: Order Rated Under 3 Stars -> Support channel. Outcome: Support sees a bad basket fast.
+- FreshCart: Demand-signal feed (Feed a warehouse or reverse-ETL). Trigger: Category Surge -> Supply lake. Outcome: Demand signals reach planning fresh.
+
+### HealthTech
+- Ovia Health: Appointment sync (Sync to a CRM or CDP). Trigger: Appointment Booked -> Scheduling system. Outcome: Bookings sync to the schedule live.
+- Ovia Health: Care-reminder inbox (Trigger the client's own inbox or bulletins). Trigger: Follow-up Due -> In-house inbox. Outcome: A reminder lands in their own inbox.
+- Ovia Health: Wellness reward (Issue a coupon or loyalty update). Trigger: Activity Goal Reached -> Rewards engine. Outcome: A perk posts on the goal.
+- Ovia Health: Re-engagement pull (Drive real-time personalization). Trigger: No Check-in in 14 Days -> Content service. Outcome: A gentle next step waits on next open.
+- Ovia Health: Coverage-status sync (Sync to a CRM or CDP). Trigger: Eligibility Updated -> Ops CRM. Outcome: Ops sees coverage changes live.
+- Ovia Health: Engagement-events stream (Feed a warehouse or reverse-ETL). Trigger: Check-in Logged -> Wellness lake. Outcome: Engagement data reaches analytics fresh.
+
+### Insurance
+- Sagana Care: Claim-status ticket (Fan-out to an ops or chat channel). Trigger: Claim Status Changed -> Case-management channel. Outcome: A case updates the moment status flips.
+- Sagana Care: Renewal-risk sync (Sync to a CRM or CDP). Trigger: Policy Renewal Due in 30 Days -> Agent CRM. Outcome: Agents see renewal risk live.
+- Sagana Care: Quote-abandon rescue (Drive real-time personalization). Trigger: Quote Started, Not Bought -> Offer service. Outcome: A tailored quote waits on next visit.
+- Sagana Care: Wellness reward (Issue a coupon or loyalty update). Trigger: Health Goal Completed -> Rewards engine. Outcome: A premium credit posts on the milestone.
+- Sagana Care: Document-ready inbox (Trigger the client's own inbox or bulletins). Trigger: Policy Document Issued -> In-house inbox. Outcome: The policy PDF lands in their own inbox.
+- Sagana Care: Fraud-signal feed (Raise a fraud or risk alert). Trigger: Duplicate Claim Pattern -> Risk queue. Outcome: A duplicate-claim flag fires early.
+
+### Loyalty
+- OrbitPoints: Reward issue (Issue a coupon or loyalty update). Trigger: Points Threshold Reached -> Rewards issuer. Outcome: A reward mints on the threshold.
+- OrbitPoints: Tier-upgrade fan-out (Fan-out to an ops or chat channel). Trigger: Tier Upgraded -> Partner channel. Outcome: Partners see tier moves live.
+- OrbitPoints: Expiry rescue (Drive real-time personalization). Trigger: Points Expiring in 7 Days -> Offer service. Outcome: A use-it offer waits on next open.
+- OrbitPoints: Partner-earn sync (Sync to a CRM or CDP). Trigger: Partner Points Earned -> Partner CRM. Outcome: Cross-partner earns reconcile live.
+- OrbitPoints: Balance inbox (Trigger the client's own inbox or bulletins). Trigger: Statement Ready -> In-house inbox. Outcome: A points statement lands in-app.
+- OrbitPoints: Ledger-events stream (Feed a warehouse or reverse-ETL). Trigger: Points Event Logged -> Loyalty lake. Outcome: Ledger data reaches analytics fresh.
+
+### News / Media
+- The Daily Lens: Breaking distribution (Trigger the client's own inbox or bulletins). Trigger: Breaking Story Published -> Distribution service. Outcome: A breaking alert fans out on publish.
+- The Daily Lens: Topic-affinity nudge (Drive real-time personalization). Trigger: Followed Topic Updated -> Content service. Outcome: A tailored read waits on next open.
+- The Daily Lens: Paywall-abandon sync (Sync to a CRM or CDP). Trigger: Paywall Hit, No Subscribe -> Growth CRM. Outcome: High-intent readers surface live.
+- The Daily Lens: Loyal-reader reward (Issue a coupon or loyalty update). Trigger: Read Streak Reached -> Rewards engine. Outcome: A free-article credit unlocks.
+- The Daily Lens: Comment-abuse flag (Raise a fraud or risk alert). Trigger: Report Threshold Reached -> Moderation queue. Outcome: A moderation case opens fast.
+- The Daily Lens: Read-events stream (Feed a warehouse or reverse-ETL). Trigger: Article Read -> Content lake. Outcome: Read data reaches analytics fresh.
+
+### OTT / Streaming
+- Vela+: Binge reward (Issue a coupon or loyalty update). Trigger: Watch Milestone (5 Episodes) -> Rewards service. Outcome: A bonus month or badge lands mid-binge.
+- Vela+: Cold-title rescue (Drive real-time personalization). Trigger: No Play in 14 Days -> Reco engine. Outcome: A hand-picked row waits on next open.
+- Vela+: New-season fan-out (Trigger the client's own inbox or bulletins). Trigger: Series Renewed (Watchlist Match) -> In-house inbox. Outcome: A premiere alert sits in their own inbox.
+- Vela+: Payment recovery (Fan-out to an ops or chat channel). Trigger: Renewal Payment Failed -> Billing ops channel. Outcome: Ops sees the failed renewal at once.
+- Vela+: Trial-to-paid sync (Sync to a CRM or CDP). Trigger: Trial Day 5 Reached -> Growth CRM. Outcome: Sales sees trial intent live.
+- Vela+: Content-affinity stream (Feed a warehouse or reverse-ETL). Trigger: Genre Threshold Crossed -> Recommendation lake. Outcome: Affinity signals feed the model fresh.
+
+### Ride-hailing
+- SwiftRide: Trip-complete loyalty (Issue a coupon or loyalty update). Trigger: Trip Completed -> Loyalty ledger. Outcome: Points post the second the trip ends.
+- SwiftRide: Driver-incident alert (Fan-out to an ops or chat channel). Trigger: Safety Flag Raised -> Safety ops channel. Outcome: Safety sees the flag in seconds.
+- SwiftRide: Surge-abandon rescue (Drive real-time personalization). Trigger: Fare Quote Abandoned -> Offer service. Outcome: A credit or nudge waits on next open.
+- SwiftRide: First-ride sync (Sync to a CRM or CDP). Trigger: First Trip Completed -> Growth CRM. Outcome: New-rider activation shows live.
+- SwiftRide: Lost-item ticket (Fan-out to an ops or chat channel). Trigger: Lost Item Reported -> Support channel. Outcome: Support opens the case at once.
+- SwiftRide: Trip-events stream (Feed a warehouse or reverse-ETL). Trigger: Trip Events Batch -> Mobility lake. Outcome: Trip data reaches the lake minutes-fresh.
+
+### Telco
+- Lumo Mobile: Churn-risk save (Fan-out to an ops or chat channel). Trigger: Data Balance Low (under 500MB) -> Retention dialer. Outcome: Agents call before the line goes quiet.
+- Lumo Mobile: Bill-shock guard (Drive real-time personalization). Trigger: Usage Over 80% of Plan -> Plan reco service. Outcome: Right-plan nudge before the overage lands.
+- Lumo Mobile: Roaming welcome (Trigger the client's own inbox or bulletins). Trigger: Roaming Session Started -> In-house alerts inbox. Outcome: A travel pack offer waits in their own app inbox.
+- Lumo Mobile: Port-out signal (Raise a fraud or risk alert). Trigger: SIM Deactivation Requested -> Risk queue. Outcome: A win-back or a fraud check fires in seconds.
+- Lumo Mobile: Loyalty top-up (Issue a coupon or loyalty update). Trigger: 6 Months Tenure Reached -> Rewards engine. Outcome: A data gift lands on the anniversary.
+- Lumo Mobile: Network-quality feed (Feed a warehouse or reverse-ETL). Trigger: Dropped-Call Cluster Detected -> Analytics lake. Outcome: Cell-site quality data lands minutes-fresh.
+
+### Travel
+- Kitefare: Flight-change ops (Fan-out to an ops or chat channel). Trigger: Flight Schedule Changed -> Ops channel. Outcome: Ops sees disruptions live.
+- Kitefare: Fare-drop nudge (Drive real-time personalization). Trigger: Watched Route Price Dropped -> Fare service. Outcome: A price-drop alert waits on next open.
+- Kitefare: Trip-doc inbox (Trigger the client's own inbox or bulletins). Trigger: Boarding Pass Issued -> In-house inbox. Outcome: Travel docs land in their own inbox.
+- Kitefare: Loyalty-tier upgrade (Issue a coupon or loyalty update). Trigger: Miles Tier Upgraded -> Rewards engine. Outcome: Perks unlock the moment the tier moves.
+- Kitefare: Abandoned-search sync (Sync to a CRM or CDP). Trigger: Search Without Booking -> Sales CRM. Outcome: Agents see high-intent searches live.
+- Kitefare: Booking-events stream (Feed a warehouse or reverse-ETL). Trigger: Booking Confirmed -> Travel lake. Outcome: Booking data reaches analytics fresh.
+
+## Page sections
+Splash, hero with outbound-flow animation, family band (15 galleries), key facts, payload up close, seven integration patterns, config anatomy, reliability and security, watch-outs, External Trigger, choose the right tool, build vs buy, documented destinations, 90-recipe gallery with vertical and pattern filters, stats and observability, where the webhook surfaces (device and browser mockups), 20-question FAQ.
+
+## Where the webhook surfaces (downstream mockups)
+A webhook has no user interface of its own. What the user finally sees is the downstream moment it sets off, rendered by the brand's own stack or by an External Trigger campaign. The gallery shows eight illustrative device and browser mockups: on mobile, an app push (Arca Bank new-device login), a custom HTML in-app (Vela+ binge reward), an app inbox row (Sagana Care policy document), and an app native display card (Tokobell restock); on the web, a web push (Kitefare fare drop), a web popup (Tokobell cart rescue), a web inbox panel (The Daily Lens breaking story), and a web native display block (OrbitPoints reward). Each is labeled brand, trigger, webhook, surface, to keep the chain honest.
+
+## Caveats
+Fictional brands and endpoints. Illustrative metrics. Version or plan dependent facts are flagged Verify with PM. No affiliation implied. Built as a reference by SJ Neo.

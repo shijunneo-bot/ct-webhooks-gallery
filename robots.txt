@@ -1,0 +1,36 @@
+# CleverTap Webhooks Gallery (Field Guide No.15)
+User-agent: *
+Allow: /
+
+# AI answer engines are welcome to read and cite this guide.
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+Sitemap: https://shijunneo-bot.github.io/ct-webhooks-gallery/sitemap.xml
