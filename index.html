@@ -503,6 +503,41 @@ footer .fine{font-family:var(--mono);font-size:10.5px;color:var(--faint);margin-
 .sf-wn p{font-size:10.5px;color:var(--smut);margin:0 0 7px}
 .sf-wn .cta{font-family:var(--mono);font-size:10px;color:var(--sacc);font-weight:700}
 
+/* ===== per-recipe modal mockups (No.15 add-on) ===== */
+.mk{--kc:#fff;--ktx:#1a2130;--kmut:#5c6675;--kacc:#0a7350;--kln:#e2e5ea;--kw:#eef0f4;border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:2px 0}
+.mk-head{display:flex;align-items:center;gap:8px;padding:8px 12px;background:#f1f3f6;color:#1a2130;font-family:var(--sans);font-weight:700;font-size:12px}
+.mk-dot{width:9px;height:9px;border-radius:50%;flex:0 0 auto}
+.mk-badge{margin-left:auto;font-family:var(--mono);font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:#5c6675;font-weight:600}
+.mk-chat{background:var(--kw);padding:12px}
+.mk-msg{display:flex;gap:8px;align-items:flex-start}
+.mk-av{width:26px;height:26px;border-radius:50%;flex:0 0 auto;display:grid;place-items:center;font-size:9px;font-weight:800;color:#fff;background:#2b3a4d}
+.mk-name{font-size:9px;color:var(--kmut);margin-bottom:3px;font-family:var(--mono)}
+.mk-bub{background:var(--kc);color:var(--ktx);border-radius:11px;padding:8px 10px;font-size:11.5px;line-height:1.45;max-width:84%;border:1px solid var(--kln)}
+.mk-chip{display:inline-block;margin-top:7px;font-family:var(--mono);font-size:10px;font-weight:700;background:var(--kacc);color:#fff;border-radius:6px;padding:3px 8px;letter-spacing:.04em}
+.mk-reply{display:inline-block;font-family:var(--mono);font-size:9.5px;border:1px solid var(--kln);border-radius:13px;padding:4px 9px;color:var(--ktx);background:var(--kc)}
+.mk-reply.danger{border-color:#e0897f;color:#b3271c}
+.mk-sk{height:8px;border-radius:5px;background:rgba(20,30,45,.08);margin-bottom:8px}
+.mk-crm{background:var(--kc);padding:12px}
+.mk-rec{display:flex;gap:10px;align-items:center;margin-bottom:10px}
+.mk-fields{border-top:1px solid var(--kln);padding-top:8px;font-size:11px;color:var(--kmut)}
+.mk-fields .row{display:flex;justify-content:space-between;gap:10px;padding:3px 0}
+.mk-fields .row b{color:var(--ktx);font-weight:600;text-align:right}
+.mk-upd{color:var(--kacc);font-weight:700}
+.mk-console{background:#0a1119;padding:12px;font-family:var(--mono);font-size:10.5px;color:#c9d6ea;line-height:1.75;overflow-x:auto;white-space:pre-wrap;word-break:break-word}
+.mk-console .p{color:#2ff2b3}
+.mk-console .dim{color:#7d90ae}
+.mk-app{background:var(--kw);padding:12px}
+.mk-appbar{font-weight:700;font-size:12px;color:var(--ktx);margin-bottom:8px}
+.mk-card{background:var(--kc);border:1px solid var(--kln);border-radius:10px;overflow:hidden}
+.mk-card .im{height:52px;background:linear-gradient(135deg,#0e9e73,#12324a)}
+.mk-card .cbd{padding:9px 11px}
+.mk-card .lb{font-family:var(--mono);font-size:8px;text-transform:uppercase;letter-spacing:.06em;color:var(--kmut)}
+.mk-card h6{font-size:12.5px;color:var(--ktx);margin:2px 0 3px}
+.mk-card p{font-size:10.5px;color:var(--kmut);margin:0 0 7px}
+.mk-card .cta{font-family:var(--mono);font-size:10px;color:var(--kacc);font-weight:700}
+.mk-irw{display:flex;gap:9px;padding:9px;border:1px solid var(--kln);border-radius:9px;background:var(--kc);align-items:flex-start}
+.mk-cap{font-size:.8rem;color:var(--muted);margin-top:8px}
+
 </style>
 <body><a class="skip" href="#main">Skip to content</a>
 <div id="splash" role="dialog" aria-label="Webhooks Gallery intro" aria-modal="true">
@@ -1604,6 +1639,71 @@ footer .fine{font-family:var(--mono);font-size:10.5px;color:var(--faint);margin-
     var order = [['who','Who'],['what','What'],['when','When'],['where','Where'],['why','Why'],['how','How']];
     return order.map(function(o){ return '<div><b>'+o[1]+'</b><p>'+esc(f[o[0]])+'</p></div>'; }).join('');
   }
+  var MK_MSGR = {LINE:'#06C755', WhatsApp:'#25D366', Telegram:'#229ED9', Viber:'#7360F2', KakaoTalk:'#F7C400'};
+  var MK_MSGR_NAMES = ['LINE','WhatsApp','Telegram','Viber','KakaoTalk'];
+  var MK_TEAM = {'Slack':'#4A154B','MS Teams':'#4B53BC','Discord':'#5865F2','Ops channel':'#5c6675'};
+  function mkNum(r){ return parseInt(String(r.id||'r0').slice(1),10) || 0; }
+  function mkMsgr(r){ return MK_MSGR_NAMES[ mkNum(r) % MK_MSGR_NAMES.length ]; }
+  function mkInit(s){ return String(s||'?').split(' ').map(function(w){return w.charAt(0);}).join('').slice(0,2).toUpperCase(); }
+  function mkWrap(app, dot, badge, inner, cap){
+    return '<div class="msub">How it might look</div>'
+      + '<div class="mk"><div class="mk-head"><span class="mk-dot" style="background:'+dot+'"></span>'+esc(app)+'<span class="mk-badge">'+esc(badge)+'</span></div>'+inner+'</div>'
+      + '<div class="mk-cap">'+esc(cap)+'</div>';
+  }
+  function renderMock(r){
+    var P=r.pattern, brand=r.brand, trig=r.trigger, ds=r.downstream, out=r.outcome, name=r.name;
+    if(P==='ops'){
+      var app = MK_TEAM[ds] ? ds : 'Ops channel'; var col = MK_TEAM[app] || MK_TEAM['Ops channel'];
+      var inner='<div class="mk-chat"><div class="mk-sk" style="width:58%"></div>'
+        +'<div class="mk-msg"><div class="mk-av">'+esc(mkInit(brand))+'</div>'
+        +'<div><div class="mk-name">'+esc(brand)+' bot · #alerts · now</div>'
+        +'<div class="mk-bub"><b>'+esc(trig)+'</b><br>'+esc(out)+'.</div></div></div>'
+        +'<div class="mk-sk" style="width:38%;margin-top:8px"></div></div>';
+      return mkWrap(app, col, 'team chat', inner, 'Roughly how '+ds+' surfaces the alert to the team. Illustrative.');
+    }
+    if(P==='crm'){
+      var inner='<div class="mk-crm"><div class="mk-rec"><div class="mk-av">'+esc(mkInit(brand))+'</div>'
+        +'<div><div style="font-weight:700;font-size:12px;color:var(--ktx)">Customer record</div>'
+        +'<div style="font-size:10px;color:var(--kmut);font-family:var(--mono)">'+esc(brand)+' · synced now</div></div></div>'
+        +'<div class="mk-fields"><div class="row"><span>Last event</span><b>'+esc(trig)+'</b></div>'
+        +'<div class="row"><span>Source</span><b>CleverTap webhook</b></div>'
+        +'<div class="row"><span>Status</span><span class="mk-upd">updated</span></div></div></div>';
+      return mkWrap(ds, '#0a7350', 'CRM record', inner, 'A live field update inside '+ds+'. Illustrative.');
+    }
+    if(P==='warehouse'){
+      var row='{"event":"'+trig+'","brand":"'+brand+'","ts":"...","source":"clevertap"}';
+      var inner='<div class="mk-console"><span class="dim">// stream to '+esc(ds)+'</span>\n'
+        +'<span class="p">→</span> row appended\n'+esc(row)+'\n<span class="dim">1 row · ~1 to 5 min fresh</span></div>';
+      return mkWrap(ds, '#2ff2b3', 'data pipeline', inner, 'The event landing in '+ds+'. Illustrative.');
+    }
+    if(P==='inbox'){
+      var inner='<div class="mk-app"><div class="mk-appbar">'+esc(brand)+' · Inbox</div>'
+        +'<div class="mk-irw"><div class="mk-av" style="width:24px;height:24px;border-radius:7px;background:#0a7350">'+esc(mkInit(brand))+'</div>'
+        +'<div><div style="font-weight:700;font-size:11.5px;color:var(--ktx)">'+esc(name)+'</div>'
+        +'<div style="font-size:10px;color:var(--kmut)">'+esc(out)+'</div></div></div></div>';
+      return mkWrap(brand+' app', '#0a7350', 'in-app inbox', inner, "A new row in the brand's own inbox. Illustrative.");
+    }
+    if(P==='personalize'){
+      var inner='<div class="mk-app"><div class="mk-appbar">'+esc(brand)+'</div>'
+        +'<div class="mk-card"><div class="im"></div><div class="cbd"><div class="lb">Recommended for you</div>'
+        +'<h6>'+esc(name)+'</h6><p>'+esc(out)+'.</p><span class="cta">See it &rarr;</span></div></div></div>';
+      return mkWrap(brand+' app', '#0a7350', 'personalized surface', inner, 'A fresh recommendation the next time they open. Illustrative.');
+    }
+    var app=mkMsgr(r), col=MK_MSGR[app];
+    if(P==='fraud'){
+      var inner='<div class="mk-chat"><div class="mk-msg"><div class="mk-av">'+esc(mkInit(brand))+'</div>'
+        +'<div><div class="mk-name">'+esc(brand)+' · '+esc(app)+' · now</div>'
+        +'<div class="mk-bub" style="border-left:3px solid #d84a3c"><b>Security alert</b><br>'+esc(trig)+'. Was this you?</div>'
+        +'<div style="margin-top:7px;display:flex;gap:6px"><span class="mk-reply">Yes, it was me</span><span class="mk-reply danger">No, secure it</span></div></div></div></div>';
+      return mkWrap(app, col, 'messenger', inner, 'A security alert reaching the user on '+app+'. Illustrative.');
+    }
+    var code='REWARD-'+String((mkNum(r)*7+13)).padStart(4,'0');
+    var inner='<div class="mk-chat"><div class="mk-msg"><div class="mk-av">'+esc(mkInit(brand))+'</div>'
+      +'<div><div class="mk-name">'+esc(brand)+' · '+esc(app)+' · now</div>'
+      +'<div class="mk-bub" style="border-left:3px solid '+col+'">Nice work. '+esc(out)+'.<span class="mk-chip">'+esc(code)+'</span></div></div></div></div>';
+    return mkWrap(app, col, 'messenger', inner, 'The reward delivered to the user on '+app+'. Illustrative.');
+  }
+
   function openModal(id){
     var r = byId[id]; if(!r) return;
     lastFocus = document.activeElement;
@@ -1614,6 +1714,7 @@ footer .fine{font-family:var(--mono);font-size:10.5px;color:var(--faint);margin-
       '<div class="m-flow"><span class="box">'+esc(r.trigger)+'</span><span class="ar">&rarr;</span>'
         +'<span class="box ct">CleverTap webhook</span><span class="ar">&rarr;</span>'
         +'<span class="box">'+esc(r.downstream)+'</span></div>'
+      + renderMock(r)
       +'<div class="why"><b>What this unlocks</b>'+esc(r.unlocks)+'</div>'
       +'<div class="mgrid">'+chips(r.metrics)+'</div>'
       +'<div><div class="msub">5W1H</div><div class="fivew">'+fivew(r.fivew)+'</div></div>'
