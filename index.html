@@ -503,40 +503,163 @@ footer .fine{font-family:var(--mono);font-size:10.5px;color:var(--faint);margin-
 .sf-wn p{font-size:10.5px;color:var(--smut);margin:0 0 7px}
 .sf-wn .cta{font-family:var(--mono);font-size:10px;color:var(--sacc);font-weight:700}
 
-/* ===== per-recipe modal mockups (No.15 add-on) ===== */
-.mk{--kc:#fff;--ktx:#1a2130;--kmut:#5c6675;--kacc:#0a7350;--kln:#e2e5ea;--kw:#eef0f4;border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:2px 0}
-.mk-head{display:flex;align-items:center;gap:8px;padding:8px 12px;background:#f1f3f6;color:#1a2130;font-family:var(--sans);font-weight:700;font-size:12px}
-.mk-dot{width:9px;height:9px;border-radius:50%;flex:0 0 auto}
-.mk-badge{margin-left:auto;font-family:var(--mono);font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:#5c6675;font-weight:600}
-.mk-chat{background:var(--kw);padding:12px}
-.mk-msg{display:flex;gap:8px;align-items:flex-start}
-.mk-av{width:26px;height:26px;border-radius:50%;flex:0 0 auto;display:grid;place-items:center;font-size:9px;font-weight:800;color:#fff;background:#2b3a4d}
-.mk-name{font-size:9px;color:var(--kmut);margin-bottom:3px;font-family:var(--mono)}
-.mk-bub{background:var(--kc);color:var(--ktx);border-radius:11px;padding:8px 10px;font-size:11.5px;line-height:1.45;max-width:84%;border:1px solid var(--kln)}
-.mk-chip{display:inline-block;margin-top:7px;font-family:var(--mono);font-size:10px;font-weight:700;background:var(--kacc);color:#fff;border-radius:6px;padding:3px 8px;letter-spacing:.04em}
-.mk-reply{display:inline-block;font-family:var(--mono);font-size:9.5px;border:1px solid var(--kln);border-radius:13px;padding:4px 9px;color:var(--ktx);background:var(--kc)}
-.mk-reply.danger{border-color:#e0897f;color:#b3271c}
-.mk-sk{height:8px;border-radius:5px;background:rgba(20,30,45,.08);margin-bottom:8px}
-.mk-crm{background:var(--kc);padding:12px}
-.mk-rec{display:flex;gap:10px;align-items:center;margin-bottom:10px}
-.mk-fields{border-top:1px solid var(--kln);padding-top:8px;font-size:11px;color:var(--kmut)}
-.mk-fields .row{display:flex;justify-content:space-between;gap:10px;padding:3px 0}
-.mk-fields .row b{color:var(--ktx);font-weight:600;text-align:right}
-.mk-upd{color:var(--kacc);font-weight:700}
-.mk-console{background:#0a1119;padding:12px;font-family:var(--mono);font-size:10.5px;color:#c9d6ea;line-height:1.75;overflow-x:auto;white-space:pre-wrap;word-break:break-word}
-.mk-console .p{color:#2ff2b3}
-.mk-console .dim{color:#7d90ae}
-.mk-app{background:var(--kw);padding:12px}
-.mk-appbar{font-weight:700;font-size:12px;color:var(--ktx);margin-bottom:8px}
-.mk-card{background:var(--kc);border:1px solid var(--kln);border-radius:10px;overflow:hidden}
-.mk-card .im{height:52px;background:linear-gradient(135deg,#0e9e73,#12324a)}
-.mk-card .cbd{padding:9px 11px}
-.mk-card .lb{font-family:var(--mono);font-size:8px;text-transform:uppercase;letter-spacing:.06em;color:var(--kmut)}
-.mk-card h6{font-size:12.5px;color:var(--ktx);margin:2px 0 3px}
-.mk-card p{font-size:10.5px;color:var(--kmut);margin:0 0 7px}
-.mk-card .cta{font-family:var(--mono);font-size:10px;color:var(--kacc);font-weight:700}
-.mk-irw{display:flex;gap:9px;padding:9px;border:1px solid var(--kln);border-radius:9px;background:var(--kc);align-items:flex-start}
-.mk-cap{font-size:.8rem;color:var(--muted);margin-top:8px}
+/* ===== per-recipe mockups v2 (No.15) ===== */
+.mk2{--c:#fff;--t:#1a2130;--m:#6b7480;--ln:#e3e6ea;--g:#0a7350}
+.mk-cap{font-size:.8rem;color:var(--muted);margin-top:9px}
+
+/* --- phone frame --- */
+.mkp{width:214px;margin:0 auto;background:#0b1017;border:8px solid #0b1017;border-radius:32px;
+  box-shadow:0 20px 44px -20px rgba(0,0,0,.72),inset 0 0 0 1px rgba(255,255,255,.07)}
+.mkp-scr{height:356px;border-radius:25px;overflow:hidden;position:relative;display:flex;flex-direction:column;background:#fff}
+.mkp-notch{position:absolute;top:6px;left:50%;transform:translateX(-50%);width:58px;height:16px;background:#05080d;border-radius:9px;z-index:9}
+.mkp-sb{display:flex;justify-content:space-between;align-items:center;padding:8px 14px 4px;font-family:var(--mono);font-size:8.5px;font-weight:600;position:relative;z-index:7}
+
+/* --- messenger --- */
+.ms-hd{display:flex;align-items:center;gap:7px;padding:7px 10px}
+.ms-back{font-size:14px;line-height:1;opacity:.9}
+.ms-av{width:26px;height:26px;border-radius:50%;flex:0 0 auto;display:grid;place-items:center;font-size:9px;font-weight:800;background:rgba(255,255,255,.22)}
+.ms-who{min-width:0;line-height:1.25}
+.ms-nm{font-size:11.5px;font-weight:700;display:flex;align-items:center;gap:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ms-vf{font-size:8px;background:rgba(255,255,255,.25);border-radius:50%;width:11px;height:11px;display:inline-grid;place-items:center;flex:0 0 auto}
+.ms-sub{font-size:8.5px;opacity:.85}
+.ms-ico{margin-left:auto;display:flex;gap:8px;font-size:11px;opacity:.9}
+.ms-body{flex:1;padding:9px 10px;overflow:hidden;position:relative}
+.ms-day{text-align:center;margin-bottom:8px}
+.ms-day span{font-size:8px;background:rgba(0,0,0,.16);color:#fff;border-radius:9px;padding:2px 9px}
+.ms-in{background:#fff;border-radius:12px;border-top-left-radius:4px;padding:8px 10px;font-size:11px;line-height:1.45;
+  color:var(--t);max-width:86%;box-shadow:0 1px 2px rgba(0,0,0,.14);position:relative}
+.ms-in b{font-weight:700}
+.ms-ttl{font-weight:700;font-size:11.5px;margin-bottom:2px}
+.ms-meta{font-size:8.5px;color:var(--m);margin-top:5px;text-align:right}
+.ms-code{display:inline-block;margin-top:7px;font-family:var(--mono);font-size:10px;font-weight:700;
+  border:1px dashed #b9c0c9;border-radius:6px;padding:4px 9px;color:var(--t);background:#f7f9fb;letter-spacing:.06em}
+.ms-btns{margin-top:7px;border-top:1px solid var(--ln);padding-top:6px;display:flex;flex-direction:column;gap:5px}
+.ms-btn{text-align:center;font-size:10.5px;font-weight:700;padding:5px;border-radius:7px;background:#f2f4f7;color:var(--g)}
+.ms-btn.warn{color:#b3271c}
+.ms-qr{display:flex;gap:5px;margin-top:7px;flex-wrap:wrap}
+.ms-qr span{font-size:9.5px;background:#fff;border:1px solid var(--ln);border-radius:12px;padding:3px 9px;color:var(--t)}
+.ms-inp{display:flex;align-items:center;gap:7px;padding:7px 9px;background:#fff;border-top:1px solid var(--ln)}
+.ms-inp .f{flex:1;height:22px;border-radius:11px;background:#f0f2f5;border:1px solid var(--ln)}
+.ms-send{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:10px;flex:0 0 auto}
+
+/* --- app inbox / feed on phone --- */
+.ap-hd{display:flex;align-items:center;gap:7px;padding:9px 11px;border-bottom:1px solid var(--ln);background:#fff}
+.ap-nm{font-weight:800;font-size:12.5px;color:var(--t)}
+.ap-ico{margin-left:auto;font-size:11px;color:var(--m)}
+.ap-body{flex:1;background:#f4f6f8;overflow:hidden}
+.ap-row{display:flex;gap:9px;padding:10px 11px;background:#fff;border-bottom:1px solid var(--ln);align-items:flex-start}
+.ap-ic{width:26px;height:26px;border-radius:8px;flex:0 0 auto;display:grid;place-items:center;font-size:9px;font-weight:800;color:#fff;background:#9aa4b2}
+.ap-ic.on{background:var(--g)}
+.ap-tx{min-width:0;flex:1}
+.ap-t1{font-size:11.5px;font-weight:700;color:var(--t);display:flex;align-items:center;gap:5px}
+.ap-t1 i{width:6px;height:6px;border-radius:50%;background:var(--g);flex:0 0 auto}
+.ap-t2{font-size:10px;color:var(--m);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ap-tm{font-family:var(--mono);font-size:8px;color:var(--m);flex:0 0 auto}
+.ap-card{margin:10px;background:#fff;border:1px solid var(--ln);border-radius:11px;overflow:hidden}
+.ap-card .im{height:70px;background:linear-gradient(135deg,#0e9e73,#12324a);position:relative}
+.ap-card .im span{position:absolute;left:8px;bottom:7px;font-family:var(--mono);font-size:8px;color:#fff;background:rgba(0,0,0,.35);border-radius:5px;padding:2px 7px}
+.ap-card .bd{padding:9px 11px}
+.ap-card h6{font-size:12.5px;color:var(--t);margin:0 0 3px}
+.ap-card p{font-size:10.5px;color:var(--m);margin:0 0 8px;line-height:1.4}
+.ap-card .cta{display:block;text-align:center;background:var(--g);color:#fff;font-size:11px;font-weight:700;padding:7px;border-radius:8px}
+.ap-sk{padding:10px 11px}
+.ap-b{height:8px;border-radius:4px;background:#e2e6ea;margin-bottom:7px}
+
+/* --- desktop window --- */
+.mkw{border-radius:11px;overflow:hidden;border:1px solid var(--line2);box-shadow:0 18px 40px -20px rgba(0,0,0,.6)}
+.mkw-bar{display:flex;align-items:center;gap:9px;padding:8px 11px;background:#e9ebef;border-bottom:1px solid #d6dae0}
+.mkw-l{display:flex;gap:5px}.mkw-l i{width:9px;height:9px;border-radius:50%}
+.mkw-ti{font-size:10.5px;color:#3d4653;font-weight:600}
+.mkw-body{display:flex;min-height:196px;background:#fff}
+.mkw-rail{width:38px;flex:0 0 auto;padding:9px 0;display:flex;flex-direction:column;align-items:center;gap:7px}
+.mkw-rail i{width:22px;height:22px;border-radius:7px;background:rgba(255,255,255,.22);display:block}
+.mkw-rail i.on{background:rgba(255,255,255,.85)}
+.mkw-main{flex:1;min-width:0;display:flex;flex-direction:column}
+.ch-hd{padding:8px 12px;border-bottom:1px solid var(--ln);font-weight:800;font-size:12px;color:var(--t);display:flex;align-items:center;gap:6px}
+.ch-hd small{font-weight:500;color:var(--m);font-size:10px}
+.ch-body{padding:10px 12px;flex:1}
+.ch-msg{display:flex;gap:9px}
+.ch-av{width:30px;height:30px;border-radius:8px;flex:0 0 auto;display:grid;place-items:center;color:#fff;font-size:10px;font-weight:800}
+.ch-hdr{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.ch-nm{font-size:11.5px;font-weight:800;color:var(--t)}
+.ch-app{font-family:var(--mono);font-size:8px;background:#dfe3e8;color:#4b5563;border-radius:3px;padding:1px 4px;font-weight:700;letter-spacing:.04em}
+.ch-tm{font-family:var(--mono);font-size:8.5px;color:var(--m)}
+.ch-att{margin-top:6px;border-left:3px solid var(--g);background:#f7f9fb;border-radius:0 8px 8px 0;padding:8px 10px}
+.ch-att .t{font-size:11.5px;font-weight:700;color:var(--g)}
+.ch-att .d{font-size:10.5px;color:#3d4653;margin-top:2px;line-height:1.45}
+.ch-f{display:flex;gap:14px;margin-top:7px;flex-wrap:wrap}
+.ch-f div{min-width:0}
+.ch-f .k{font-size:8.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--m);font-weight:700}
+.ch-f .v{font-size:10.5px;color:var(--t);font-weight:600}
+.ch-acts{display:flex;gap:6px;margin-top:8px}
+.ch-acts span{font-size:10px;font-weight:700;border:1px solid #ccd2da;border-radius:5px;padding:4px 9px;background:#fff;color:#3d4653}
+.ch-acts span.pri{background:var(--g);color:#fff;border-color:var(--g)}
+.ch-dark{background:#313338}
+.ch-dark .ch-hd{color:#f2f3f5;border-color:#3f4147}
+.ch-dark .ch-hd small{color:#b5bac1}
+.ch-dark .ch-nm{color:#f2f3f5}
+.ch-dark .ch-att{background:#2b2d31}
+.ch-dark .ch-att .d{color:#dbdee1}
+.ch-dark .ch-f .v{color:#f2f3f5}
+.ch-dark .ch-app{background:#5865F2;color:#fff}
+.ch-dark .ch-acts span{background:#2b2d31;color:#dbdee1;border-color:#3f4147}
+
+/* --- CRM record --- */
+.crm-hd{display:flex;gap:11px;align-items:center;padding:11px 13px;border-bottom:1px solid var(--ln)}
+.crm-av{width:36px;height:36px;border-radius:50%;background:var(--g);color:#fff;display:grid;place-items:center;font-weight:800;font-size:12px;flex:0 0 auto}
+.crm-t1{font-size:13px;font-weight:800;color:var(--t)}
+.crm-t2{font-size:10px;color:var(--m);font-family:var(--mono)}
+.crm-tabs{display:flex;gap:16px;padding:0 13px;border-bottom:1px solid var(--ln)}
+.crm-tabs span{font-size:10.5px;color:var(--m);padding:7px 0;font-weight:600}
+.crm-tabs span.on{color:var(--g);border-bottom:2px solid var(--g)}
+.crm-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px 16px;padding:11px 13px}
+.crm-f .k{font-size:8.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--m);font-weight:700}
+.crm-f .v{font-size:11px;color:var(--t);font-weight:600;margin-top:2px;word-break:break-word}
+.crm-note{margin:0 13px 12px;background:#eef8f4;border:1px solid #bfe3d5;border-radius:8px;padding:8px 10px;font-size:10.5px;color:#0a5a44;display:flex;align-items:center;gap:7px}
+.crm-note i{width:7px;height:7px;border-radius:50%;background:var(--g);flex:0 0 auto}
+
+/* --- console --- */
+.con{background:#0a1119;padding:11px 13px;font-family:var(--mono);font-size:10.5px;line-height:1.8;color:#c9d6ea;overflow-x:auto}
+.con .p{color:#2ff2b3}.con .dim{color:#7d90ae}.con .kw{color:#7fb0ff}
+.con table{width:100%;min-width:0;border-collapse:collapse;margin-top:7px;font-size:9.5px}
+.con th{text-align:left;color:#7d90ae;font-weight:600;border-bottom:1px solid rgba(255,255,255,.14);padding:3px 7px 3px 0;text-transform:none;background:none}
+.con td{padding:3px 7px 3px 0;border-bottom:1px solid rgba(255,255,255,.06);color:#c9d6ea;white-space:nowrap}
+
+/* --- card preview thumbnail --- */
+.rc-prev{height:126px;border-radius:10px;overflow:hidden;position:relative;border:1px solid var(--line);
+  background:#eef0f4;pointer-events:none;flex:0 0 auto}
+.rc:hover .rc-prev{border-color:color-mix(in srgb,var(--accent) 45%,transparent)}
+.pv-tag{position:absolute;top:6px;right:6px;z-index:4;font-family:var(--mono);font-size:8px;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;background:rgba(10,22,38,.78);color:#eaf1fb;border-radius:5px;padding:2px 6px}
+.pv-hd{display:flex;align-items:center;gap:6px;padding:6px 8px;font-size:9.5px;font-weight:700}
+.pv-av{width:16px;height:16px;border-radius:50%;display:grid;place-items:center;font-size:7px;font-weight:800;background:rgba(255,255,255,.24)}
+.pv-body{padding:8px}
+.pv-bub{background:#fff;border-radius:8px;border-top-left-radius:3px;padding:6px 8px;font-size:9px;line-height:1.4;color:#1a2130;box-shadow:0 1px 2px rgba(0,0,0,.13)}
+.pv-bub b{display:block;font-size:9.5px;margin-bottom:1px}
+.pv-code{display:inline-block;margin-top:4px;font-family:var(--mono);font-size:7.5px;font-weight:700;border:1px dashed #b9c0c9;border-radius:4px;padding:2px 5px;background:#f7f9fb}
+.pv-qr{display:flex;gap:4px;margin-top:5px}
+.pv-qr i{font-size:7.5px;background:#fff;border:1px solid #e3e6ea;border-radius:8px;padding:2px 6px;color:#1a2130;font-style:normal}
+.pv-win{display:flex;align-items:center;gap:5px;padding:5px 8px;background:#e9ebef;border-bottom:1px solid #d6dae0}
+.pv-win i{width:6px;height:6px;border-radius:50%}
+.pv-win span{font-size:8.5px;color:#3d4653;font-weight:600}
+.pv-att{margin:7px 8px;border-left:3px solid #0a7350;background:#f7f9fb;border-radius:0 6px 6px 0;padding:6px 8px}
+.pv-att b{display:block;font-size:9.5px;color:#0a7350}
+.pv-att span{font-size:8.5px;color:#3d4653;line-height:1.35;display:block;margin-top:1px}
+.pv-rows{padding:6px 8px}
+.pv-r{display:flex;justify-content:space-between;gap:8px;font-size:8.5px;padding:3px 0;border-bottom:1px solid #e6e9ed}
+.pv-r span{color:#6b7480}.pv-r b{color:#1a2130;font-weight:700;text-align:right}
+.pv-con{background:#0a1119;height:100%;padding:7px 9px;font-family:var(--mono);font-size:8px;line-height:1.7;color:#c9d6ea}
+.pv-con .p{color:#2ff2b3}.pv-con .dim{color:#7d90ae}
+.pv-irow{display:flex;gap:6px;padding:6px 8px;background:#fff;border-bottom:1px solid #e6e9ed;align-items:flex-start}
+.pv-ic{width:16px;height:16px;border-radius:5px;flex:0 0 auto;display:grid;place-items:center;font-size:7px;font-weight:800;color:#fff;background:#0a7350}
+.pv-ic.off{background:#9aa4b2}
+.pv-it{font-size:9px;font-weight:700;color:#1a2130;line-height:1.25}
+.pv-is{font-size:8px;color:#6b7480;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pv-card{margin:7px 8px;background:#fff;border:1px solid #e3e6ea;border-radius:8px;overflow:hidden}
+.pv-card .im{height:38px;background:linear-gradient(135deg,#0e9e73,#12324a)}
+.pv-card .bd{padding:6px 8px}
+.pv-card b{font-size:9.5px;color:#1a2130;display:block}
+.pv-card span{font-size:8px;color:#6b7480;display:block;margin-top:1px}
 
 </style>
 <body><a class="skip" href="#main">Skip to content</a>
@@ -1639,70 +1762,215 @@ footer .fine{font-family:var(--mono);font-size:10.5px;color:var(--faint);margin-
     var order = [['who','Who'],['what','What'],['when','When'],['where','Where'],['why','Why'],['how','How']];
     return order.map(function(o){ return '<div><b>'+o[1]+'</b><p>'+esc(f[o[0]])+'</p></div>'; }).join('');
   }
-  var MK_MSGR = {LINE:'#06C755', WhatsApp:'#25D366', Telegram:'#229ED9', Viber:'#7360F2', KakaoTalk:'#F7C400'};
-  var MK_MSGR_NAMES = ['LINE','WhatsApp','Telegram','Viber','KakaoTalk'];
-  var MK_TEAM = {'Slack':'#4A154B','MS Teams':'#4B53BC','Discord':'#5865F2','Ops channel':'#5c6675'};
+  /* ===== mockups v2 ===== */
+  var MSGR = {
+    'LINE':      {hdr:'#04853A', tx:'#ffffff', acc:'#06C755', wall:'#8CABD8', sub:'Official Account'},
+    'WhatsApp':  {hdr:'#075E54', tx:'#ffffff', acc:'#25D366', wall:'#ECE5DD', sub:'Business Account'},
+    'Telegram':  {hdr:'#14688F', tx:'#ffffff', acc:'#229ED9', wall:'#8DA8BE', sub:'bot'},
+    'Viber':     {hdr:'#5546C4', tx:'#ffffff', acc:'#7360F2', wall:'#EDEBF7', sub:'Business'},
+    'KakaoTalk': {hdr:'#F7C400', tx:'#2B2B2B', acc:'#F7C400', wall:'#9BBBD4', sub:'Business Channel'}
+  };
+  var MSGR_NAMES = ['LINE','WhatsApp','Telegram','Viber','KakaoTalk'];
+  var TEAM = {
+    'Slack':      {rail:'#3F0E40', av:'#4A154B', app:'Slack',            ch:'#ops-alerts', dark:false},
+    'MS Teams':   {rail:'#4B53BC', av:'#4B53BC', app:'Microsoft Teams',  ch:'Alerts',      dark:false},
+    'Discord':    {rail:'#1E1F22', av:'#5865F2', app:'Discord',          ch:'#alerts',     dark:true},
+    'Ops channel':{rail:'#2B3A4D', av:'#2B3A4D', app:'Ops console',      ch:'#alerts',     dark:false}
+  };
   function mkNum(r){ return parseInt(String(r.id||'r0').slice(1),10) || 0; }
-  function mkMsgr(r){ return MK_MSGR_NAMES[ mkNum(r) % MK_MSGR_NAMES.length ]; }
+  function mkMsgr(r){ return MSGR_NAMES[ mkNum(r) % MSGR_NAMES.length ]; }
   function mkInit(s){ return String(s||'?').split(' ').map(function(w){return w.charAt(0);}).join('').slice(0,2).toUpperCase(); }
-  function mkWrap(app, dot, badge, inner, cap){
-    return '<div class="msub">How it might look</div>'
-      + '<div class="mk"><div class="mk-head"><span class="mk-dot" style="background:'+dot+'"></span>'+esc(app)+'<span class="mk-badge">'+esc(badge)+'</span></div>'+inner+'</div>'
-      + '<div class="mk-cap">'+esc(cap)+'</div>';
+  function mkCode(r){ var n=(mkNum(r)*37+1409)%9000+1000; return 'RW-'+n; }
+  function mkTeam(ds){ return TEAM[ds] ? ds : 'Ops channel'; }
+  function mkSb(bg,tx){
+    return '<div class="mkp-sb" style="background:'+bg+';color:'+tx+'"><span>9:41</span><span>5G &#9679;&#9679;&#9679;</span></div>';
   }
+  function mkCap(t){ return '<div class="mk-cap">'+esc(t)+'</div>'; }
+  function mkHead(){ return '<div class="msub">How it might look</div>'; }
+
+  function mockMessenger(r, danger){
+    var app = mkMsgr(r), C = MSGR[app], brand = r.brand;
+    var body = danger
+      ? '<div class="ms-ttl">Security alert</div>'+esc(r.trigger)+'. If this was not you, secure your account now.'
+        +'<div class="ms-btns"><span class="ms-btn">Yes, this was me</span><span class="ms-btn warn">No, secure it</span></div>'
+      : '<div class="ms-ttl">'+esc(r.name)+'</div>'+esc(r.outcome)+'.'
+        +'<div class="ms-code">'+esc(mkCode(r))+'</div>'
+        +'<div class="ms-btns"><span class="ms-btn">Open in app</span></div>';
+    return '<div class="mk2"><div class="mkp"><div class="mkp-scr"><div class="mkp-notch"></div>'
+      + mkSb(C.hdr, C.tx)
+      + '<div class="ms-hd" style="background:'+C.hdr+';color:'+C.tx+'"><span class="ms-back">&#8249;</span>'
+        + '<span class="ms-av">'+esc(mkInit(brand))+'</span>'
+        + '<span class="ms-who"><span class="ms-nm">'+esc(brand)+'<span class="ms-vf">&#10003;</span></span>'
+        + '<span class="ms-sub">'+esc(C.sub)+'</span></span>'
+        + '<span class="ms-ico">&#9742; &#8942;</span></div>'
+      + '<div class="ms-body" style="background:'+C.wall+'"><div class="ms-day"><span>Today</span></div>'
+        + '<div class="ms-in">'+body+'<div class="ms-meta">9:41 AM</div></div>'
+        + (danger ? '' : '<div class="ms-qr"><span>Thanks</span><span>Show me</span></div>')
+      + '</div>'
+      + '<div class="ms-inp"><span class="f"></span><span class="ms-send" style="background:'+C.acc+'">&#10148;</span></div>'
+      + '</div></div>'
+      + mkCap('Roughly how the message could land on ' + app + ', sent by the brand\u2019s own stack or an External Trigger campaign. Illustrative.')
+      + '</div>';
+  }
+
+  function mockTeam(r){
+    var app = mkTeam(r.downstream), T = TEAM[app];
+    return '<div class="mk2"><div class="mkw"><div class="mkw-bar"><span class="mkw-l">'
+      + '<i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i></span>'
+      + '<span class="mkw-ti">'+esc(TEAM[r.downstream] ? T.app : r.downstream)+'</span></div>'
+      + '<div class="mkw-body'+(T.dark?' ch-dark':'')+'"><div class="mkw-rail" style="background:'+T.rail+'"><i class="on"></i><i></i><i></i></div>'
+      + '<div class="mkw-main"><div class="ch-hd">'+esc(T.ch)+' <small>'+esc(r.vertical)+' alerts</small></div>'
+      + '<div class="ch-body"><div class="ch-msg"><span class="ch-av" style="background:'+T.av+'">'+esc(mkInit(r.brand))+'</span>'
+      + '<div style="min-width:0;flex:1"><div class="ch-hdr"><span class="ch-nm">'+esc(r.brand)+' alerts</span>'
+      + '<span class="ch-app">APP</span><span class="ch-tm">9:41 AM</span></div>'
+      + '<div class="ch-att"><div class="t">'+esc(r.trigger)+'</div><div class="d">'+esc(r.outcome)+'.</div>'
+      + '<div class="ch-f"><div><div class="k">Account</div><div class="v">'+esc(r.brand)+'</div></div>'
+      + '<div><div class="k">Source</div><div class="v">CleverTap webhook</div></div>'
+      + '<div><div class="k">Pattern</div><div class="v">'+esc(r.patternName.split(' ')[0])+'</div></div></div>'
+      + '<div class="ch-acts"><span class="pri">Take it</span><span>Snooze</span></div></div>'
+      + '</div></div></div></div></div></div>'
+      + mkCap('Roughly how the alert could appear in ' + app + ' for the team on duty. Illustrative.')
+      + '</div>';
+  }
+
+  function mockCrm(r){
+    var sys = r.downstream;
+    return '<div class="mk2"><div class="mkw"><div class="mkw-bar"><span class="mkw-l">'
+      + '<i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i></span>'
+      + '<span class="mkw-ti">'+esc(sys)+'</span></div>'
+      + '<div style="background:#fff"><div class="crm-hd"><span class="crm-av">'+esc(mkInit(r.brand))+'</span>'
+      + '<span><div class="crm-t1">Contact record</div><div class="crm-t2">'+esc(r.brand)+' &middot; updated just now</div></span></div>'
+      + '<div class="crm-tabs"><span class="on">Details</span><span>Activity</span><span>Related</span></div>'
+      + '<div class="crm-grid">'
+      + '<div class="crm-f"><div class="k">Last event</div><div class="v">'+esc(r.trigger)+'</div></div>'
+      + '<div class="crm-f"><div class="k">Source</div><div class="v">CleverTap webhook</div></div>'
+      + '<div class="crm-f"><div class="k">Lifecycle</div><div class="v">Engaged</div></div>'
+      + '<div class="crm-f"><div class="k">Owner</div><div class="v">Unassigned</div></div></div>'
+      + '<div class="crm-note"><i></i>'+esc(r.outcome)+'.</div>'
+      + '</div></div>'
+      + mkCap('Roughly how the record could look in ' + sys + ' once the webhook lands. Illustrative.')
+      + '</div>';
+  }
+
+  function mockWarehouse(r){
+    var t = String(r.vertical).toLowerCase().replace(/[^a-z]+/g,'_')+'_events';
+    return '<div class="mk2"><div class="mkw"><div class="mkw-bar"><span class="mkw-l">'
+      + '<i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i></span>'
+      + '<span class="mkw-ti">'+esc(r.downstream)+'</span></div>'
+      + '<div class="con"><span class="dim">// stream from the CleverTap webhook, through the queue</span><br>'
+      + '<span class="kw">SELECT</span> event, brand, ts <span class="kw">FROM</span> '+esc(t)+' <span class="kw">ORDER BY</span> ts <span class="kw">DESC</span> <span class="kw">LIMIT</span> 2;<br>'
+      + '<span class="p">&#8594;</span> 2 rows'
+      + '<table><thead><tr><th>event</th><th>brand</th><th>ts</th></tr></thead><tbody>'
+      + '<tr><td>'+esc(r.trigger)+'</td><td>'+esc(r.brand)+'</td><td>09:41:02</td></tr>'
+      + '<tr><td>'+esc(r.trigger)+'</td><td>'+esc(r.brand)+'</td><td>09:40:58</td></tr>'
+      + '</tbody></table>'
+      + '<span class="dim">freshness: about 1 to 5 minutes (illustrative)</span></div></div>'
+      + mkCap('Roughly how the event could land in ' + r.downstream + ' for the analytics team. Illustrative.')
+      + '</div>';
+  }
+
+  function mockInbox(r){
+    return '<div class="mk2"><div class="mkp"><div class="mkp-scr">'
+      + '<div class="mkp-notch"></div>' + mkSb('#ffffff','#1a2130')
+      + '<div class="ap-hd"><span class="ap-nm">'+esc(r.brand)+'</span><span class="ap-ico">Inbox &#9662;</span></div>'
+      + '<div class="ap-body">'
+      + '<div class="ap-row"><span class="ap-ic on">'+esc(mkInit(r.brand))+'</span>'
+      + '<span class="ap-tx"><span class="ap-t1"><i></i>'+esc(r.name)+'</span>'
+      + '<span class="ap-t2">'+esc(r.outcome)+'</span></span><span class="ap-tm">now</span></div>'
+      + '<div class="ap-row"><span class="ap-ic off">'+esc(mkInit(r.brand))+'</span>'
+      + '<span class="ap-tx"><span class="ap-t1">Earlier update</span>'
+      + '<span class="ap-t2">Read and archived</span></span><span class="ap-tm">2d</span></div>'
+      + '<div class="ap-sk"><div class="ap-b" style="width:82%"></div><div class="ap-b" style="width:56%"></div></div>'
+      + '</div></div></div>'
+      + mkCap('Roughly how the row could appear in the brand\u2019s own message centre. Illustrative.')
+      + '</div>';
+  }
+
+  function mockPersonalize(r){
+    return '<div class="mk2"><div class="mkp"><div class="mkp-scr">'
+      + '<div class="mkp-notch"></div>' + mkSb('#ffffff','#1a2130')
+      + '<div class="ap-hd"><span class="ap-nm">'+esc(r.brand)+'</span><span class="ap-ico">&#9906;</span></div>'
+      + '<div class="ap-body">'
+      + '<div class="ap-sk" style="padding-bottom:0"><div class="ap-b" style="width:64%"></div></div>'
+      + '<div class="ap-card"><div class="im"><span>Picked for you</span></div><div class="bd">'
+      + '<h6>'+esc(r.name)+'</h6><p>'+esc(r.outcome)+'.</p><span class="cta">See it</span></div></div>'
+      + '<div class="ap-sk"><div class="ap-b" style="width:74%"></div><div class="ap-b" style="width:48%"></div></div>'
+      + '</div></div></div>'
+      + mkCap('Roughly how the refreshed recommendation could look on next open. Illustrative.')
+      + '</div>';
+  }
+
   function renderMock(r){
-    var P=r.pattern, brand=r.brand, trig=r.trigger, ds=r.downstream, out=r.outcome, name=r.name;
+    var P = r.pattern;
+    var inner = (P==='ops')         ? mockTeam(r)
+              : (P==='crm')         ? mockCrm(r)
+              : (P==='warehouse')   ? mockWarehouse(r)
+              : (P==='inbox')       ? mockInbox(r)
+              : (P==='personalize') ? mockPersonalize(r)
+              : (P==='fraud')       ? mockMessenger(r, true)
+              :                       mockMessenger(r, false);
+    return mkHead() + inner;
+  }
+
+  /* ---- compact preview for the recipe cards ---- */
+  function miniMock(r){
+    var P = r.pattern;
     if(P==='ops'){
-      var app = MK_TEAM[ds] ? ds : 'Ops channel'; var col = MK_TEAM[app] || MK_TEAM['Ops channel'];
-      var inner='<div class="mk-chat"><div class="mk-sk" style="width:58%"></div>'
-        +'<div class="mk-msg"><div class="mk-av">'+esc(mkInit(brand))+'</div>'
-        +'<div><div class="mk-name">'+esc(brand)+' bot · #alerts · now</div>'
-        +'<div class="mk-bub"><b>'+esc(trig)+'</b><br>'+esc(out)+'.</div></div></div>'
-        +'<div class="mk-sk" style="width:38%;margin-top:8px"></div></div>';
-      return mkWrap(app, col, 'team chat', inner, 'Roughly how '+ds+' surfaces the alert to the team. Illustrative.');
+      var app = mkTeam(r.downstream), T = TEAM[app];
+      var tag = TEAM[r.downstream] ? T.app.split(' ')[0] : String(r.downstream).split(' ')[0];
+      return '<span class="pv-tag">'+esc(tag)+'</span>'
+        + '<div class="pv-win"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i><span>'+esc(T.ch)+'</span></div>'
+        + '<div class="pv-att"><b>'+esc(r.trigger)+'</b><span>'+esc(r.outcome)+'.</span></div>';
     }
     if(P==='crm'){
-      var inner='<div class="mk-crm"><div class="mk-rec"><div class="mk-av">'+esc(mkInit(brand))+'</div>'
-        +'<div><div style="font-weight:700;font-size:12px;color:var(--ktx)">Customer record</div>'
-        +'<div style="font-size:10px;color:var(--kmut);font-family:var(--mono)">'+esc(brand)+' · synced now</div></div></div>'
-        +'<div class="mk-fields"><div class="row"><span>Last event</span><b>'+esc(trig)+'</b></div>'
-        +'<div class="row"><span>Source</span><b>CleverTap webhook</b></div>'
-        +'<div class="row"><span>Status</span><span class="mk-upd">updated</span></div></div></div>';
-      return mkWrap(ds, '#0a7350', 'CRM record', inner, 'A live field update inside '+ds+'. Illustrative.');
+      return '<span class="pv-tag">'+esc(String(r.downstream).split(' ')[0])+'</span>'
+        + '<div class="pv-win"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i><span>Contact record</span></div>'
+        + '<div class="pv-rows"><div class="pv-r"><span>Last event</span><b>'+esc(r.trigger)+'</b></div>'
+        + '<div class="pv-r"><span>Source</span><b>Webhook</b></div>'
+        + '<div class="pv-r" style="border:0"><span>Status</span><b style="color:#0a7350">updated</b></div></div>';
     }
     if(P==='warehouse'){
-      var row='{"event":"'+trig+'","brand":"'+brand+'","ts":"...","source":"clevertap"}';
-      var inner='<div class="mk-console"><span class="dim">// stream to '+esc(ds)+'</span>\n'
-        +'<span class="p">→</span> row appended\n'+esc(row)+'\n<span class="dim">1 row · ~1 to 5 min fresh</span></div>';
-      return mkWrap(ds, '#2ff2b3', 'data pipeline', inner, 'The event landing in '+ds+'. Illustrative.');
+      return '<span class="pv-tag">'+esc(String(r.downstream).split(' ')[0])+'</span>'
+        + '<div class="pv-con"><span class="dim">// stream to '+esc(r.downstream)+'</span><br>'
+        + '<span class="p">&#8594;</span> row appended<br>'+esc(r.trigger)+'<br>'
+        + '<span class="dim">~1 to 5 min fresh</span></div>';
     }
     if(P==='inbox'){
-      var inner='<div class="mk-app"><div class="mk-appbar">'+esc(brand)+' · Inbox</div>'
-        +'<div class="mk-irw"><div class="mk-av" style="width:24px;height:24px;border-radius:7px;background:#0a7350">'+esc(mkInit(brand))+'</div>'
-        +'<div><div style="font-weight:700;font-size:11.5px;color:var(--ktx)">'+esc(name)+'</div>'
-        +'<div style="font-size:10px;color:var(--kmut)">'+esc(out)+'</div></div></div></div>';
-      return mkWrap(brand+' app', '#0a7350', 'in-app inbox', inner, "A new row in the brand's own inbox. Illustrative.");
+      return '<span class="pv-tag">in-app</span>'
+        + '<div style="background:#fff;height:100%">'
+        + '<div class="pv-irow"><span class="pv-ic">'+esc(mkInit(r.brand))+'</span>'
+        + '<span style="min-width:0"><span class="pv-it">'+esc(r.name)+'</span><span class="pv-is">'+esc(r.outcome)+'</span></span></div>'
+        + '<div class="pv-irow"><span class="pv-ic off">'+esc(mkInit(r.brand))+'</span>'
+        + '<span style="min-width:0"><span class="pv-it">Earlier update</span><span class="pv-is">Read and archived</span></span></div></div>';
     }
     if(P==='personalize'){
-      var inner='<div class="mk-app"><div class="mk-appbar">'+esc(brand)+'</div>'
-        +'<div class="mk-card"><div class="im"></div><div class="cbd"><div class="lb">Recommended for you</div>'
-        +'<h6>'+esc(name)+'</h6><p>'+esc(out)+'.</p><span class="cta">See it &rarr;</span></div></div></div>';
-      return mkWrap(brand+' app', '#0a7350', 'personalized surface', inner, 'A fresh recommendation the next time they open. Illustrative.');
+      return '<span class="pv-tag">app card</span>'
+        + '<div class="pv-card"><div class="im"></div><div class="bd"><b>'+esc(r.name)+'</b>'
+        + '<span>'+esc(r.outcome)+'</span></div></div>';
     }
-    var app=mkMsgr(r), col=MK_MSGR[app];
-    if(P==='fraud'){
-      var inner='<div class="mk-chat"><div class="mk-msg"><div class="mk-av">'+esc(mkInit(brand))+'</div>'
-        +'<div><div class="mk-name">'+esc(brand)+' · '+esc(app)+' · now</div>'
-        +'<div class="mk-bub" style="border-left:3px solid #d84a3c"><b>Security alert</b><br>'+esc(trig)+'. Was this you?</div>'
-        +'<div style="margin-top:7px;display:flex;gap:6px"><span class="mk-reply">Yes, it was me</span><span class="mk-reply danger">No, secure it</span></div></div></div></div>';
-      return mkWrap(app, col, 'messenger', inner, 'A security alert reaching the user on '+app+'. Illustrative.');
-    }
-    var code='REWARD-'+String((mkNum(r)*7+13)).padStart(4,'0');
-    var inner='<div class="mk-chat"><div class="mk-msg"><div class="mk-av">'+esc(mkInit(brand))+'</div>'
-      +'<div><div class="mk-name">'+esc(brand)+' · '+esc(app)+' · now</div>'
-      +'<div class="mk-bub" style="border-left:3px solid '+col+'">Nice work. '+esc(out)+'.<span class="mk-chip">'+esc(code)+'</span></div></div></div></div>';
-    return mkWrap(app, col, 'messenger', inner, 'The reward delivered to the user on '+app+'. Illustrative.');
+    var app2 = mkMsgr(r), C = MSGR[app2], danger = (P==='fraud');
+    return '<span class="pv-tag">'+esc(app2)+'</span>'
+      + '<div class="pv-hd" style="background:'+C.hdr+';color:'+C.tx+'"><span class="pv-av">'+esc(mkInit(r.brand))+'</span>'+esc(r.brand)+'</div>'
+      + '<div class="pv-body" style="background:'+C.wall+'"><div class="pv-bub">'
+      + '<b>'+(danger ? 'Security alert' : esc(r.name))+'</b>'
+      + (danger ? esc(r.trigger)+'. Was this you?' : esc(r.outcome)+'.')
+      + (danger ? '<span class="pv-qr"><i>Yes</i><i>Secure it</i></span>' : '<span class="pv-code">'+esc(mkCode(r))+'</span>')
+      + '</div></div>';
   }
+
+  /* paint a preview into every recipe card */
+  (function paintPreviews(){
+    var list = document.querySelectorAll('#rgrid .rc');
+    Array.prototype.forEach.call(list, function(c){
+      var rec = byId[c.getAttribute('data-id')];
+      if(!rec) return;
+      var d = document.createElement('div');
+      d.className = 'rc-prev mk2';
+      d.setAttribute('aria-hidden','true');
+      d.innerHTML = miniMock(rec);
+      c.insertBefore(d, c.firstChild);
+    });
+  })();
 
   function openModal(id){
     var r = byId[id]; if(!r) return;
