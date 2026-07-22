@@ -40,8 +40,9 @@ Expects a 200 OK. Published FAQ: 5-second timeout with a retry limit of 2. Inter
 - Slack (Documented webhook guide): Incoming webhook URL for internal ops alerts. Keys must be lowercase to match Slack. Endpoint: https://hooks.slack.com/services/<path>
 - Zendesk (Documented use case): Auto-create a ticket on a low rating. Basic auth with an email plus API token. Endpoint: https://<subdomain>.zendesk.com/api/v2/tickets.json
 - Discord (Messenger partner): Channel webhook for community and alerting. Endpoint: https://discord.com/api/webhooks/<path>
-- Sendbird (Messenger partner): The bridge some teams use to reach KakaoTalk (AlimTalk) in Korea. Endpoint: (via Sendbird Business Messaging)
-Note: KakaoTalk, Zalo, Viber, and WeChat have no native CleverTap channel. Reach them with a generic webhook or a provider, and scope as custom work.
+- Sendbird Business Messaging (Messenger partner): in-app notifications built from Sendbird templates. Two CleverTap endpoints, single (real time, rate limited on big batches) and multi (large groups, not real time). Header key Api-token. An event callback returns delivery and read status to CleverTap as custom events.
+Partner detail. LINE: verified or premium Official Accounts only, store lineID on the profile (pull from the followers endpoint), POST to https://api.line.me/v2/bot/message/push with Content-Type application/json and an Authorization Bearer channel access token; text, image, and video message shapes are supported. Telegram: create a bot with BotFather, store telegram_chat_id on the profile, POST to https://api.telegram.org/bot<TOKEN>/sendMessage with parse_mode HTML, Markdown, or MarkdownV2; you can only message users who added and interacted with the bot. Slack: two methods, outbound alerts through a channel Incoming Webhook URL (payload keys must be lowercase, text not Text) and inbound through Zapier. Discord: outbound through a channel webhook URL, inbound through Zapier on events like New User Added; mentions use the stored Discord user ID as Identity. Inbound integrations authenticate with the CleverTap Account ID and Passcode as request headers.
+Note: KakaoTalk, Zalo, Viber, and WeChat have no documented CleverTap channel. Reach them with a generic webhook or a provider, and scope as custom work.
 
 ## External Trigger and the WhatsApp loop
 The inverse of a webhook. Instead of CleverTap pushing out, an outside system calls CleverTap to fire a campaign you already built, and hands it fresh data to drop into the message before it sends.
@@ -55,6 +56,10 @@ Here is the pattern some teams still run, and it is a neat one. Their backend fi
 - Retry and timeout figures conflict: The published FAQ says 5-second timeout and a retry limit of 2. Internal CS guidance has cited 3 retries at about 3 seconds. Verify with PM and design for the pessimistic case.
 - Campaign targeting cap is 100 or more: Webhook and External Trigger campaigns need a targeting cap of at least 100, regardless of the real segment size, or the campaign throws an error.
 - Order is not guaranteed: Do not assume events land in sequence. Carry the timestamp in the payload and let the receiver sort and dedupe.
+
+- Reach depends on opt-in, per platform: LINE needs followers of a verified or premium official account. Telegram needs users who added and interacted with your bot. Discord needs server members. None of these are open audiences, so size the reachable base before you scope the work.
+
+- Payload keys are case sensitive on some platforms: Slack expects lowercase keys in the custom body (text, not Text). A wrong case does not error loudly, it just renders an empty alert.
 
 ## Stats and observability
 CleverTap reports webhooks streamed, message trend, dispatch errors, and invalid-URL errors. That proves the call fired, not that the downstream delivered. Instrument the receiver for end-to-end truth.
